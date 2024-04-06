@@ -32,14 +32,8 @@ class Interval:
 
     def __mul__(self, other):
         """Переопределение умножения вычитания для интервала"""
-        if  (type(other) == int or type(other)):
-            print('lol')
-            print(f'other = {other}')
-            x1 = self._x1 * other
-            x2 = self._x2 * other
-        else:
-            x1 = min(self._x1*other._x2, self._x2*other._x1)
-            x2 = max(self._x1*other._x1, self._x2*other._x2)
+        x1 = min(self._x1*other._x2, self._x2*other._x1)
+        x2 = max(self._x1*other._x1, self._x2*other._x2)
         return Interval(x1, x2)
 
     def __truediv__(self, other):

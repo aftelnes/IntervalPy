@@ -46,7 +46,6 @@ inter3 = pow(inter1, 2)
 inter3.show_interval()
 
 #Проверка других методов
-inter3  = inter3 * 3
 print("Содержание равенства интервалов", inter2 == inter3)
 print("Содержание одного интервала в другом", inter1.contain(inter2))
 inter4 = I(-3, 1)
