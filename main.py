@@ -149,7 +149,7 @@ print()
 print('Гаусс: ')
 matrix1 = [[I(2,3), I(-1, 1)], [I(-1, 2), I(2, 3)]]
 free_coef = [I(-2, 2), I(-2, 1)]
-gaus_res = I.gauss(matrix1, free_coef)
+gaus_res = I.gauss(matrix1, free_coef, 2)
 for i in range(len(gaus_res)):
     gaus_res[i].show_interval()
 
@@ -171,8 +171,11 @@ ires.show_interval()
 res2 = inter*inter*inter
 res2.show_interval()
 
-inter1 = I(2, 3)
-tmp = inter1 * (-1)
-tmp.show_interval()
-res = I(2, 3) / I(-3, -2)
+print('res')
+res = I.div(I(-7, 3), I(9, 1.5), precision=0.0000000000000001)
 res.show_interval()
+print()
+I.sum(I(-1, 2), I(2, 3)).show_interval()
+I.sub(I(-1, 2), I(2, 3)).show_interval()
+I.mul(I(-1, 2), I(2, 3)).show_interval()
+I.div(I(-1, 2), I(2, 3)).show_interval()

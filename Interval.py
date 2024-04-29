@@ -40,8 +40,8 @@ class Interval:
             x1 = self._x1 - other
             x2 = self._x2 - other
         else:
-            x1 = self._x1 - other._x1
-            x2 = self._x2 - other._x2
+            x1 = self._x1 - other._x2
+            x2 = self._x2 - other._x1
         return Interval(x1, x2)
 
     def __mul__(self, other):
@@ -60,8 +60,10 @@ class Interval:
             x1 = self._x1 / other
             x2 = self._x2 / other
         else:
-            x1 = self._x1*(1/other._x2)
-            x2 = self._x2*(1/other._x1)
+            interval2_x1 = (1/other._x2)
+            interval2_x2 = (1/other._x1)
+            interval2 = Interval(interval2_x1, interval2_x2)
+            return self*interval2
         return Interval(x1, x2)
 
     def __pow__(self, power):
@@ -161,8 +163,8 @@ class Interval:
     @classmethod
     def sub(cls, interval_1, interval_2, precision: float = 0.001):
         """Метод вычитания интервалов, позволяющий указать определённую точность"""
-        x1 = interval_1._x1 - interval_2._x1
-        x2 = interval_1._x2 - interval_2._x2
+        x1 = interval_1._x1 - interval_2._x2
+        x2 = interval_1._x2 - interval_2._x1
         return Interval(Interval.round_down_with_precision(x1, precision),
                         Interval.round_up_with_precision(x2, precision))
 
@@ -177,8 +179,10 @@ class Interval:
     @classmethod
     def div(cls, interval_1, interval_2, precision: float = 0.001):
         """Метод деления интервалов, позволяющий указать определённую точность"""
-        x1 = interval_1._x1 * (1 / interval_2._x2)
-        x2 = interval_1._x2 * (1 / interval_2._x1)
+        interval_2 = Interval(1 / interval_2._x2, 1 / interval_2._x1)
+        x1 = min(interval_1._x1 * interval_2._x2, interval_1._x2 * interval_2._x1)
+        x2 = max(interval_1._x1 * interval_2._x1, interval_1._x2 * interval_2._x2)
+
         return Interval(Interval.round_down_with_precision(x1, precision),
                         Interval.round_up_with_precision(x2, precision))
 
@@ -249,12 +253,10 @@ class Interval:
 
 
     @classmethod
-    def gauss(cls, matrix, free_column):
+    def gauss(cls, matrix, free_column, n):
         """Функция реализующая метод Гаусса для интервалов"""
-        # n = len(matrix)
-        n = 2
         # Прямой ход
-        for i in range(n - 1):
+        for i in range(n):
             if matrix[i][i] == Interval(0, 0): raise ValueError("Ошибкa деления на 0")
 
             # Приведение уравнений к треугольному виду
