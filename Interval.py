@@ -89,7 +89,7 @@ class Interval:
     # Переопределение алгебраических операций End
 
 
-    #Функционал Begin
+    #Функционал интервалов базовый Begin
     @classmethod
     def positive_sign(cls, interval_1):
         """Метод проверяет интервал на положительность"""
@@ -232,7 +232,7 @@ class Interval:
         else:
             return self._x2
 
-    #Функционал End
+    #Функционал интервалов базовый End
 
     #Функцонал Линейной Алгебры Begin
 
@@ -340,14 +340,69 @@ class Interval:
 
     @classmethod
     def sin(cls, interval):
+        """Функция вычисления синуса"""
+        if interval.wid() >= math.pi:
+            return Interval(-1, 1)
 
         sin_left = math.sin(interval._x1)
-        sin_right = math.sin((interval._x1 + interval._x2) / 2)
+        sin_right = math.sin(interval._x2)
 
         x1 = min(sin_left, sin_right)
         x2 = max(sin_left, sin_right)
 
         return Interval(x1, x2)
+
+    @classmethod
+    def cos(cls, interval):
+        """Функция вычисления косинуса"""
+        if interval.wid() >= math.pi:
+            return Interval(-1, 1)
+
+        cos_left = math.cos(interval._x1)
+        cos_right = math.cos(interval._x2)
+
+        x1 = min(cos_left, cos_right)
+        x2 = max(cos_left, cos_right)
+
+        return Interval(x1, x2)
+
+    @classmethod
+    def exp(cls, interval):
+        """Функция вычисления экспоненты"""
+        exp_left = math.exp(interval._x1)
+        exp_right = math.exp(interval._x2)
+
+        x1 = min(exp_left, exp_right)
+        x2 = max(exp_left, exp_right)
+        return Interval(x1, x2)
+
+    @classmethod
+    def log(cls, interval, log_base):
+        """Функция вычисления логирифма"""
+
+        if (interval._x1 <= 0) or (interval._x2 <= 0):
+            print('Логарифма от такого интервала быть не может')
+        else:
+            log_left = math.log(interval._x1, log_base)
+            log_right = math.log(interval._x2, log_base)
+            x1 = min(log_left, log_right)
+            x2 = max(log_left, log_right)
+            return Interval(x1, x2)
+
+    @classmethod
+    def indicative(cls, base, interval):
+        """Степенная функция с целыми показателем"""
+        if base < 0 or base == 1:
+            print('Показатель функции должен быть числом целым!'
+                  'Интервал для примера - [1, 2]')
+        else:
+            indicative_left = pow(base, interval._x1)
+            indicative_right = pow(base, interval._x2)
+
+            x1 = min(indicative_left, indicative_right)
+            x2 = max(indicative_left, indicative_right)
+
+            return Interval(x1, x2)
 
     #Функционал элементарных функций End
 
