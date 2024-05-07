@@ -424,5 +424,3 @@ class Interval:
         return math.floor(number / precision) * precision
 
     # Вспомогательные функции для вычислений End
-
-
