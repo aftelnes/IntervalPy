@@ -5,7 +5,7 @@ class Interval:
     _x1: float = 0.0
     _x2: float = 1.0
 
-    def __init__(self, x1 = 1, x2 = None):
+    def __init__(self, x1=1, x2=None):
         if x2 == None:
             self._x1 = x1
             self._x2 = x1
@@ -358,6 +358,23 @@ class Interval:
         x2 = max(cos_left, cos_right)
 
         return Interval(x1, x2)
+
+    @classmethod
+    def tan(cls, interval):
+        '''Функция вычисления тангеса'''
+        if interval._x1 == math.pi / 2 or interval._x2 == math.pi/2 or\
+                interval._x1 == (-1)*math.pi/2 or interval._x2 == (-1)*math.pi/2:
+            print("В данном интервале тангенс не определён")
+
+
+        tan_left = math.tan(interval._x1)
+        tan_right = math.tan(interval._x2)
+
+        x1 = min(tan_right, tan_left)
+        x2 = max(tan_left, tan_right)
+
+        return Interval(x1, x2)
+
 
     @classmethod
     def exp(cls, interval):
