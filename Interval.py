@@ -43,8 +43,8 @@ class Interval:
             x1 = self._x1 * other
             x2 = self._x2 * other
         else:
-            x1 = min(self._x1*other._x2, self._x2*other._x1)
-            x2 = max(self._x1*other._x1, self._x2*other._x2)
+            x1 = min(self._x1 * other._x1, self._x2*other._x2, self._x1 * other._x2, self._x2 * other._x1)
+            x2 = max(self._x1 * other._x1, self._x2*other._x2, self._x1 * other._x2, self._x2 * other._x1)
         return Interval(x1, x2)
 
     def __truediv__(self, other):
@@ -164,8 +164,8 @@ class Interval:
     @classmethod
     def mul(cls, interval_1, interval_2, precision: float = 0.001):
         """Метод умножения интервалов, позволяющий указать определённую точность"""
-        x1 = min(interval_1._x1 * interval_2._x2, interval_1._x2 * interval_2._x1)
-        x2 = max(interval_1._x1 * interval_2._x1, interval_1._x2 * interval_2._x2)
+        x1 = min(interval_1._x1 * interval_2._x1, interval_1._x2 * interval_2._x2, interval_1._x2 * interval_2._x1, interval_1._x1 * interval_2._x2)
+        x2 = max(interval_1._x1 * interval_2._x1, interval_1._x2 * interval_2._x2, interval_1._x2 * interval_2._x1, interval_1._x1 * interval_2._x2)
         return Interval(Interval.round_down_with_precision(x1, precision),
                         Interval.round_up_with_precision(x2, precision))
 
@@ -254,7 +254,7 @@ class Interval:
 
             # Приведение уравнений к треугольному виду
             for j in range(i + 1, n):
-                factor = matrix[j][i] / matrix[i][i]
+                factor = matrix[j][i] / (matrix[i][i] * Interval(-1))
                 free_column[j] = free_column[j] - factor * free_column[i]
                 for k in range(i, n):
                     matrix[j][k] = matrix[j][k] - factor * matrix[i][k]
